@@ -7,39 +7,7 @@
 #include <memory>
 #include <algorithm>
 
-enum class TokenType
-{
-	INVALID,
-	IDENTIFIER,
-	FLOAT_CONST,
-	STRING_CONST,
-	CHAR_CONST,
-	BOOL_CONST
-};
-
-class Token
-{
-	public:
-		Token():
-			repr{ "" },
-			type{ TokenType::INVALID }
-		{
-
-		}
-
-		Token(const std::string& repr, TokenType type) :
-			repr{ repr },
-			type{ type }
-		{
-
-		}
-
-		const std::string& toString() const { return repr;  }
-		TokenType getType() const { return type; }
-	private:
-		std::string repr;
-		TokenType type;
-};
+#include "Token.h"
 
 /*
 	A KeyValuePair (hash table element) consists of a boolean flag
@@ -92,9 +60,9 @@ class HashTable
 		}
 
 		// the average complexity of the add operation is O(1) (even when considering the amortized case when needing to resize the table)
-		void add(const Token& token, int code)
+		void add(const Token& token)
 		{
-			add_(elements, size, capacity, token, code);
+			add_(elements, size, capacity, token);
 		}
 
 		// the average complxity of the retrieve operation is also O(1)
@@ -115,12 +83,12 @@ class HashTable
 			return -1;
 		}
 	private:
-		void add_(KeyValues& elems, int s, int cap, const Token& token, int code)
+		void add_(KeyValues& elems, int s, int cap, const Token& token)
 		{
 			if (s && s == cap) //if the current size is equal to the capacity, we need to resize the array
 			{
 				int oldSize = resize();
-				add(token, code);
+				add(token);
 				size -= oldSize;
 			}
 			else
@@ -138,7 +106,7 @@ class HashTable
 					}
 					pos++;
 				}
-				elems[pos % cap] = KeyValuePair(true, token, code);
+				elems[pos % cap] = KeyValuePair(true, token, pos);
 				size++;
 			}
 		}
@@ -160,7 +128,7 @@ class HashTable
 			{
 				if (elem.code != -1)
 				{
-					add_(newElements, 0, newCapacity, elem.token, elem.code);
+					add_(newElements, 0, newCapacity, elem.token);
 				}
 			}
 			elements = newElements;
