@@ -2,37 +2,37 @@
 
 #include <string>
 
-enum class TokenType
+enum class InternalTokenType
 {
 	INVALID,
 	IDENTIFIER,
-	FLOAT_CONST,
-	STRING_CONST,
-	CHAR_CONST,
-	BOOL_CONST,
-	INT_CONST
+	CONSTANT,
+	KEYWORD,
+	SEPARATOR,
+	OPERATOR
 };
 
-class Token
+struct InternalToken
 {
-	public:
-		Token() :
-			repr{ "" },
-			type{ TokenType::INVALID }
-		{
+	std::string repr;
+	int cc;
+	int cl;
+	InternalTokenType type;
 
-		}
+	InternalToken() = default;
 
-		Token(const std::string& repr, TokenType type) :
-			repr{ repr },
-			type{ type }
-		{
+	InternalToken(const std::string& repr, int cc, int cl) :
+		repr{ repr }, cc{ cc }, cl{ cl }, type{ InternalTokenType::INVALID }
+	{ }
 
-		}
+	InternalToken(const std::string& repr, int cc, int cl, InternalTokenType type) :
+		repr{ repr }, cc{ cc }, cl{ cl }, type{ type }
+	{ }
 
-		const std::string& toString() const { return repr; }
-		TokenType getType() const { return type; }
-	private:
-		std::string repr;
-		TokenType type;
+	std::string toString()
+	{
+		return "Representation: " + repr + "\nLine: " + std::to_string(cl) + "\nColumn: " + std::to_string(cc);
+	}
+
+	inline bool operator<(const InternalToken& other) const { return (int)type < (int)other.type; }
 };

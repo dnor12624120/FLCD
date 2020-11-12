@@ -1,0 +1,5 @@
+int #@# = 123; 
+// token contains invalid characters
+int aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa = 15; 
+// identifier name exceeds max limit (assuming there is one)
+printInt(#@#);

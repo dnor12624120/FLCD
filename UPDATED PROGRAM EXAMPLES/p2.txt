@@ -1,0 +1,12 @@
+int a =-5.23-+0.001;
+readInt(a);
+int b;
+readInt(b);
+int r;
+while(a % b > 0)
+{
+    r = a % b;
+    a = b;
+    b = r;
+}
+printInt(b);

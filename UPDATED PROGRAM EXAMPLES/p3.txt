@@ -1,0 +1,13 @@
+struct st
+{
+    int a;
+    string b;
+};
+b = "123";
+int[3] array = { 1, 2, 3 };
+int sum'' = 0;
+for(int i = 0; i < n; i += 1)
+{
+    sum'' += array[i];
+}
+printInt(sum'');

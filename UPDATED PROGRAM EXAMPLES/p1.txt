@@ -1,0 +1,12 @@
+//this is a comment
+int a; // a
+int b;
+int c;
+readInt(a);
+readInt(b);
+readInt(c);
+//
+//
+//
+//
+printInt(a > b ? (a > c ? a : c) : b);

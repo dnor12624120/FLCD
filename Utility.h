@@ -1,5 +1,15 @@
 #pragma once
 
+#include "Token.h"
+#include <fstream>
+#include <sstream>
+
+std::string loadProgram(const std::string& filepath)
+{
+	std::ifstream t(filepath);
+	return std::string((std::istreambuf_iterator<char>(t)), std::istreambuf_iterator<char>());
+}
+
 bool isPrime(int n)
 {
     if (n <= 1)
@@ -40,4 +50,45 @@ int nextPrime(int n)
         if (isPrime(prime))
             return prime;
     }
+}
+
+void specialRepresentations(int code, std::string& repr)
+{
+	switch (code)
+	{
+	case -1:
+	{
+		repr = "";
+		break;
+	}
+	case 0:
+	{
+		repr = "";
+		break;
+	}
+	case 1:
+	{
+		repr = "";
+		break;
+	}
+	case 56:
+	{
+		repr = "\n";
+		break;
+	}
+	case 57:
+	{
+		repr = " ";
+		break;
+	}
+	case 58:
+	{
+		repr = "\t";
+		break;
+	}
+	default:
+	{
+		break;
+	}
+	}
 }

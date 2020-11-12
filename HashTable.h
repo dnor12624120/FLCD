@@ -15,15 +15,17 @@
 	the value that will be used in the PIF.
 */
 
+
+
 struct KeyValuePair
 {
 	bool used;
-	Token token;
+	InternalToken token;
 	int code;
 
 	KeyValuePair() = default;
 
-	KeyValuePair(bool used, Token token, int code):
+	KeyValuePair(bool used, InternalToken token, int code):
 		used{ used },
 		token{ token },
 		code{ code }
@@ -44,7 +46,7 @@ class HashTable
 			// by default, elements get initialized to invalid tokens and are thus unused
 			for (auto& elem : elements)
 			{
-				elem = KeyValuePair(false, Token(), -1);
+				elem = KeyValuePair(false, InternalToken{}, -1);
 			}
 		}
 
@@ -52,7 +54,7 @@ class HashTable
 		{
 			std::string elems;
 			std::for_each(elements.begin(), elements.end(),
-				[&elems](const auto& tok) { elems += "Key: " + tok.token.toString() +
+				[&elems](const auto& tok) { elems += "Key: " + tok.token.repr +
 					"\nValue: " + std::to_string(tok.code) + "\n\n"; });
 			return "Size: " + std::to_string(size) + "\n" +
 				"Capacity: " + std::to_string(capacity) + "\n" +
@@ -60,30 +62,30 @@ class HashTable
 		}
 
 		// the average complexity of the add operation is O(1) (even when considering the amortized case when needing to resize the table)
-		void add(const Token& token)
+		void add(const InternalToken& token)
 		{
 			add_(elements, size, capacity, token);
 		}
 
 		// the average complxity of the retrieve operation is also O(1)
-		int get(const Token& token)
+		int get(const InternalToken& token)
 		{
-			int pos = hash(token.toString(), capacity);
+			int pos = hash(token.repr, capacity);
 			int positionsSearched = 0;
-			while (elements[pos % capacity].token.toString() != token.toString() && positionsSearched < capacity)
+			while (elements[pos % capacity].token.repr != token.repr && positionsSearched < capacity)
 			{
 				pos++;
 				positionsSearched++;
 			}
-			if (elements[pos % capacity].token.toString() == token.toString() &&
-				elements[pos % capacity].token.getType() == token.getType())
+			if (elements[pos % capacity].token.repr == token.repr &&
+				elements[pos % capacity].token.type == token.type)
 			{
 				return elements[pos % capacity].code;
 			}
 			return -1;
 		}
 	private:
-		void add_(KeyValues& elems, int s, int cap, const Token& token)
+		void add_(KeyValues& elems, int s, int cap, const InternalToken& token)
 		{
 			if (s && s == cap) //if the current size is equal to the capacity, we need to resize the array
 			{
@@ -93,20 +95,20 @@ class HashTable
 			}
 			else
 			{
-				int pos = hash(token.toString(), cap);
+				int pos = hash(token.repr, cap);
 				// if the positions is already in use, find the next empty one (linear probing)
 				while (elems[pos % cap].used)
 				{
 					// if along the way we find a token identical to the one we want to insert, stop
 					// we only want one entry per token
-					if (elems[pos % cap].token.toString() == token.toString() &&
-						elems[pos % cap].token.getType() == token.getType())
+					if (elems[pos % cap].token.repr == token.repr &&
+						elems[pos % cap].token.type == token.type)
 					{
 						return;
 					}
 					pos++;
 				}
-				elems[pos % cap] = KeyValuePair(true, token, pos);
+				elems[pos % cap] = KeyValuePair(true, token, pos % cap);
 				size++;
 			}
 		}
@@ -122,7 +124,7 @@ class HashTable
 			newElements.resize(newCapacity);
 			for (auto& elem : newElements)
 			{
-				elem = KeyValuePair(false, Token(), -1);
+				elem = KeyValuePair(false, InternalToken{}, -1);
 			}
 			for (const auto& elem : elements)
 			{
