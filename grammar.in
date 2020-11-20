@@ -1,0 +1,139 @@
+41
+identifier
+character-constant
+boolean-constant
+string-constant
+floating-constant
+integer-constant
+const
+char
+bool
+string
+float
+int
+[
+]
+struct
+;
+=
+{
+}
+,
+*=
+/=
+%=
++=
+-=
+!
+?
+:
+||
+&&
+==
+!=
+<
+>
+<=
+>=
++
+-
+*
+/
+%
+sizeof
+.
+(
+)
+
+type 
+2
+1
+type-specifier
+2
+const type-specifier
+
+type-specifier
+2
+1
+array-specifier
+1
+non-array-specifier
+
+non-array-specifier
+6
+1
+char
+1
+bool
+1
+float
+1
+string
+1
+int
+1
+struct-specifier
+
+array-specifier
+1
+2
+non-array-specifier array-dimension
+
+array-dimension
+4
+3
+[ constant ]
+3
+[ identifier ]
+4
+[ constant ] array-dimension
+4
+[ identifier ] array-dimension
+
+struct-specifier
+1
+2
+struct identifier
+
+declaration
+1
+3
+type identifier ;
+
+initialization
+1
+5
+type identifier = initializer ;
+
+initializer
+2
+1
+expression
+3
+{ initializer_list }
+
+initializer_list
+2
+1
+expression
+3
+expression , initializer_list
+
+struct_declaration
+1
+6
+struct identifier { struct-definition-list } ;
+
+struct_definition_list 
+2
+1
+declaration
+2
+declaration struct_definition_list
+
+assignment_expression
+2
+1
+conditional_expression
+3
+identifier assignment_operator assignment_expression
