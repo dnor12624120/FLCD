@@ -25,6 +25,9 @@ class Scanner
 
 		}
 
+		std::vector<std::pair<int, std::tuple<int, int, int>>> getPIF() { return pif; }
+		HashTable getST() { return st; }
+
 		void scan(const std::string& program)
 		{
 			auto tks = splitByWhitespace(program);
@@ -48,7 +51,13 @@ class Scanner
 		std::string pifToString() const
 		{
 			std::string content;
-			std::for_each(pif.begin(), pif.end(), [&](const auto& p) { content += "Token type: " + std::to_string(p.first) + " Code: " + std::to_string(p.second) + "\n"; });
+			std::for_each(pif.begin(), pif.end(), [&](const auto& p) 
+				{
+					content += "Token type: " + std::to_string(p.first) +
+						" Code: " + std::to_string(std::get<0>(p.second)) + "\n" +
+						" Line: " + std::to_string(std::get<1>(p.second)) + "\n" +
+						" Column: " + std::to_string(std::get<2>(p.second)) + "\n";
+				});
 			return "PIF:\n" + content;
 		}
 
@@ -124,16 +133,16 @@ class Scanner
 				if (t.type == InternalTokenType::IDENTIFIER)
 				{
 					st.add(t);
-					pif.emplace_back(std::pair<int, int>(0, st.get(t)));
+					pif.emplace_back(std::pair<int, std::tuple<int, int, int>>(0, std::make_tuple(st.get(t), t.cl, t.cc)));
 				}
 				else if (t.type == InternalTokenType::CONSTANT)
 				{
 					st.add(t);
-					pif.emplace_back(std::pair<int, int>(1, st.get(t)));
+					pif.emplace_back(std::pair<int, std::tuple<int, int, int>>(1, std::make_tuple(st.get(t), t.cl, t.cc)));
 				}
 				else
 				{
-					pif.emplace_back(std::pair<int, int>(-1, tokens[t.repr]));
+					pif.emplace_back(std::pair<int, std::tuple<int, int, int>>(-1, std::make_tuple(tokens[t.repr], t.cl, t.cc)));
 				}
 			}
 		}
@@ -461,9 +470,10 @@ class Scanner
 			}
 			return c;
 		}
+
 		FiniteAutomaton identifierFA;
 		FiniteAutomaton integerFA;
-		std::vector<std::pair<int, int>> pif;
+		std::vector<std::pair<int, std::tuple<int, int, int>>> pif;
 		HashTable st;
 		std::map<std::string, int> tokens;
 		int currentLine;

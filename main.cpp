@@ -9,15 +9,60 @@
 #include "Utility.h"
 #include "Scanner.h"
 #include "FiniteAutomaton.h"
+#include "Grammar.h"
+#include "Parser.h"
 
 void testProgram(const std::string& filepath);
 void testAutomaton(const std::string& filepath);
+void testGrammar(const std::string& grammarFilepath, const std::string& programFilepath);
 void printMenu();
 
 int main()
 {
-	testProgram("perr.in");
+	testGrammar("grammar.in", "ptest.in");
 	return 0;
+}
+
+void testGrammar(const std::string& grammarFilepath, const std::string& programFilepath)
+{
+	Grammar grammar(grammarFilepath);
+	std::ifstream inputFile("token.in");
+	std::map<int, std::string> tokenCodes;
+	for (int i = 0; i < 61; i++)
+	{
+		std::string repr;
+		int code;
+		inputFile >> repr >> code;
+		tokenCodes.insert(std::pair<int, std::string>(code, repr));
+	}
+	inputFile = std::ifstream("token.in");
+	std::map<std::string, int> tokens;
+	for (int i = 0; i < 61; i++)
+	{
+		std::string repr;
+		int code;
+		inputFile >> repr >> code;
+		specialRepresentations(code, repr);
+		tokens.insert(std::pair<std::string, int>(repr, code));
+	}
+	std::string p1 = loadProgram(programFilepath);
+	Scanner sc(tokens);
+	try
+	{
+		sc.scan(p1);
+		Parser parser(grammar, sc.getPIF(), sc.getST(), tokenCodes);
+		parser.parse("program");
+		auto output = parser.getOutput();
+		while (!output.empty())
+		{
+			std::cout << output.top() << '\n';
+			output.pop();
+		}
+	}
+	catch (std::runtime_error& e)
+	{
+		std::cout << e.what() << '\n';
+	}
 }
 
 void testProgram(const std::string& filepath)

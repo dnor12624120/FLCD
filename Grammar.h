@@ -4,10 +4,12 @@
 #include <string>
 #include <vector>
 #include <fstream>
+#include <iostream>
 
 class Terminal
 {
 	public:
+		Terminal() = default;
 		Terminal(const std::string& repr) :
 			representation{ repr }
 		{
@@ -20,12 +22,15 @@ class Terminal
 class NonTerminal
 {
 	public:
+		NonTerminal() = default;
 		NonTerminal(const std::string& repr, const std::vector<std::vector<std::string>>& prods) :
 			representation{ repr },
 			productions{ prods }
 		{
 
 		}
+
+		const std::vector<std::vector<std::string>>& getProductions() { return productions; }
 	private:
 		std::string representation;
 		std::vector<std::vector<std::string>> productions;
@@ -39,6 +44,9 @@ class Grammar
 			loadGrammar(filepath);
 		}
 
+		std::map<std::string, Terminal> getTerminals() { return terminals; }
+		std::map<std::string, NonTerminal> getNonterminals() { return nonterminals; }
+
 		bool isTerminal(const std::string& input)
 		{
 			return terminals.find(input) != terminals.end();
@@ -47,6 +55,30 @@ class Grammar
 		bool isNonterminal(const std::string& input)
 		{
 			return nonterminals.find(input) != nonterminals.end();
+		}
+
+		void print()
+		{
+			std::cout << "Terminals:\n";
+			for (auto& terminal : terminals)
+			{
+				std::cout << terminal.first << '\n';
+			}
+			std::cout << "Nonterminals:\n";
+			for (auto& nonterminal : nonterminals)
+			{
+				std::cout << "Nonterminal name: " << nonterminal.first << '\n';
+				std::cout << "Productions:\n";
+				for (auto& prods : nonterminal.second.getProductions())
+				{
+					for (auto& prod : prods)
+					{
+						std::cout << prod << ' ';
+					}
+					std::cout << '\n';
+				}
+				std::cout << '\n';
+			}
 		}
 	private:
 		void loadGrammar(const std::string& filepath)
@@ -81,7 +113,7 @@ class Grammar
 						inputFile >> prodComponent;
 						prod.emplace_back(prodComponent);
 					}
-					prodLength;
+					prods.emplace_back(prod);
 				}
 				nonterminals[repr] = NonTerminal(repr, prods);
 			}
