@@ -11,57 +11,53 @@
 #include "FiniteAutomaton.h"
 #include "Grammar.h"
 #include "Parser.h"
+#include "Output.h"
 
 void testProgram(const std::string& filepath);
 void testAutomaton(const std::string& filepath);
-void testGrammar(const std::string& grammarFilepath, const std::string& programFilepath);
+void testGrammar(const std::string& grammarFilepath);
 void printMenu();
 
 int main()
 {
-	testGrammar("grammar.in", "ptest.in");
+	testGrammar("g1.in");
 	return 0;
 }
 
-void testGrammar(const std::string& grammarFilepath, const std::string& programFilepath)
+void testGrammar(const std::string& grammarFilepath)
 {
+	/*
+	S -> a A | b B
+	A -> a A | c B
+	B -> c
+	*/
 	Grammar grammar(grammarFilepath);
-	std::ifstream inputFile("token.in");
-	std::map<int, std::string> tokenCodes;
-	for (int i = 0; i < 61; i++)
-	{
-		std::string repr;
-		int code;
-		inputFile >> repr >> code;
-		tokenCodes.insert(std::pair<int, std::string>(code, repr));
-	}
-	inputFile = std::ifstream("token.in");
-	std::map<std::string, int> tokens;
-	for (int i = 0; i < 61; i++)
-	{
-		std::string repr;
-		int code;
-		inputFile >> repr >> code;
-		specialRepresentations(code, repr);
-		tokens.insert(std::pair<std::string, int>(repr, code));
-	}
-	std::string p1 = loadProgram(programFilepath);
-	Scanner sc(tokens);
+	std::vector<std::tuple<std::string, int, int>> w1{
+		std::tuple<std::string, int, int>("a", 0, 0),
+		std::tuple<std::string, int, int>("a", 0, 1),
+		std::tuple<std::string, int, int>("a", 0, 2),
+		std::tuple<std::string, int, int>("c", 0, 3),
+		std::tuple<std::string, int, int>("c", 0, 4)
+	};
+	std::vector<std::tuple<std::string, int, int>> w2{
+		std::tuple<std::string, int, int>("a", 0, 0),
+		std::tuple<std::string, int, int>("x", 0, 1)
+	};
+	Parser parser(grammar, w1);
 	try
 	{
-		sc.scan(p1);
-		Parser parser(grammar, sc.getPIF(), sc.getST(), tokenCodes);
-		parser.parse("program");
-		auto output = parser.getOutput();
-		while (!output.empty())
+		auto output = parser.parse();
+		for (int i = output.size() - 1; i >= 0; i--)
 		{
-			std::cout << output.top() << '\n';
-			output.pop();
+			std::cout << output[i] << '\n';
 		}
+		Output o(grammar, output);
+		o.buildTree(0, o.getRoot());
+		o.print(o.getRoot());
 	}
-	catch (std::runtime_error& e)
+	catch (std::exception& e)
 	{
-		std::cout << e.what() << '\n';
+		std::cout << "Error parsing\n";
 	}
 }
 

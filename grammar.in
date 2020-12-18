@@ -1,4 +1,5 @@
-41
+program
+45 35
 identifier
 character-constant
 boolean-constant
@@ -110,30 +111,245 @@ initializer
 1
 expression
 3
-{ initializer_list }
+{ initializer-list }
 
-initializer_list
+initializer-list
 2
 1
 expression
 3
-expression , initializer_list
+expression , initializer-list
 
-struct_declaration
+struct-declaration
 1
 6
 struct identifier { struct-definition-list } ;
 
-struct_definition_list 
+struct-definition-list 
 2
 1
 declaration
 2
-declaration struct_definition_list
+declaration struct-definition-list
 
-assignment_expression
+assignment-expression
 2
 1
-conditional_expression
+conditional-expression
 3
-identifier assignment_operator assignment_expression
+identifier assignment-operator assignment-expression
+
+assignment-operator
+6
+1
+=
+1
++=
+1
+-=
+1
+*=
+1
+/=
+1
+%=
+
+unary-operator
+1
+1
+!
+
+conditional-expression
+2
+1
+logical-or-expression
+5
+logical-or-expression ? conditional-expression : conditional-expression
+
+logical-or-expression
+2
+1
+logical-and-expression
+3
+logical-or-expression || logical-and-expression
+
+logical-and-expression
+2
+1
+equality-expression
+3
+logical-and-expression && equality-expression
+
+equality-expression
+3
+1
+relational-expression
+3
+equality-expression == relational-expression
+3
+equality-expression != relational-expression
+
+relational-expression
+5
+1
+additive-expression
+3
+relational-expression < additive-expression
+3
+relational-expression > additive-expression
+3
+relational-expression <= additive-expression
+3
+relational-expression <= additive-expression
+
+additive-expression
+3
+1
+multiplicative-expression
+3
+additive-expression + multiplicative-expression
+3
+additive-expression - multiplicative-expression
+
+multiplicative-expression
+4
+1
+unary-expression
+3
+multiplicative-expression * unary-expression
+3
+multiplicative-expression / unary-expression
+3
+multiplicative-expression % unary-expression
+
+unary-expression
+4
+1
+postfix-expression
+2
+unary-operator unary-expression
+2
+sizeof unary-expression
+2 
+sizeof type
+
+postfix-expression
+4
+1
+primary-expression
+1
+io-expression
+4
+postfix-expression [ expression ]
+3
+postfix-expression . identifier
+
+io-expression
+10
+4
+readFloat ( identifier )
+4
+readChar ( identifier )
+4
+readBool ( identifier )
+4
+readString ( identifier )
+4
+readInt ( identifier )
+4
+printFloat ( expression )
+4
+printChar ( expression )
+4
+printBool ( expression )
+4
+printString ( expression )
+4
+printInt ( expression )
+
+primary-expression
+3
+1
+identifier
+1
+constant
+3
+( expression )
+
+constant
+5
+1
+character-constant
+1
+boolean-constant
+1
+string-constant
+1
+floating-constant
+1
+integer-constant
+
+expression
+2
+1
+assignment-expression
+3
+assignment-expression , expression
+
+statement
+5
+1
+selection-statement
+1
+expression-statement
+1
+iteration-statement
+1
+jump-statement
+3
+{ compound-statement }
+
+compound-statement
+3
+2
+statement compound-statement
+2
+declaration compound-statement
+2
+initialization compound-statement
+
+expression-statement
+2
+1
+;
+2
+expression ;
+
+selection-statement
+2
+5
+if ( expression ) statement
+7
+if ( expression ) statement else statement
+
+iteration-statement
+2
+5
+while ( expression ) statement
+9
+for ( expression ; expression ; expression ) statement
+
+jump-statement
+2
+2
+return ;
+3
+return expression ;
+
+program
+2
+1
+statement
+2
+statement program
+

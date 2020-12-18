@@ -1,0 +1,17 @@
+﻿  main.cpp
+C:\Users\joseph\source\repos\FLCD\FLCD\Scanner.h(72,22): warning C4018: '<': signed/unsigned mismatch
+C:\Users\joseph\source\repos\FLCD\FLCD\Scanner.h(75,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\joseph\source\repos\FLCD\FLCD\Scanner.h(85,26): warning C4018: '<': signed/unsigned mismatch
+C:\Users\joseph\source\repos\FLCD\FLCD\Scanner.h(97,25): warning C4018: '<': signed/unsigned mismatch
+C:\Users\joseph\source\repos\FLCD\FLCD\Scanner.h(113,42): warning C4018: '<': signed/unsigned mismatch
+C:\Users\joseph\source\repos\FLCD\FLCD\Scanner.h(250,25): warning C4018: '<': signed/unsigned mismatch
+C:\Users\joseph\source\repos\FLCD\FLCD\Parser.h(41,25): warning C4018: '<': signed/unsigned mismatch
+C:\Users\joseph\source\repos\FLCD\FLCD\Parser.h(66,22): warning C4018: '<': signed/unsigned mismatch
+C:\Users\joseph\source\repos\FLCD\FLCD\Parser.h(68,55): warning C4018: '<': signed/unsigned mismatch
+C:\Users\joseph\source\repos\FLCD\FLCD\Parser.h(106,48): warning C4018: '>=': signed/unsigned mismatch
+C:\Users\joseph\source\repos\FLCD\FLCD\Parser.h(186,23): warning C4553: '==': result of expression not used; did you intend '='?
+C:\Users\joseph\source\repos\FLCD\FLCD\Output.h(72,14): warning C4018: '<': signed/unsigned mismatch
+C:\Users\joseph\source\repos\FLCD\FLCD\Output.h(86,23): warning C4018: '<': signed/unsigned mismatch
+C:\Users\joseph\source\repos\FLCD\FLCD\main.cpp(58,25): warning C4101: 'e': unreferenced local variable
+C:\Users\joseph\source\repos\FLCD\FLCD\Utility.h(53): warning C4715: 'nextPrime': not all control paths return a value
+  FLCD.vcxproj -> C:\Users\joseph\source\repos\FLCD\Debug\FLCD.exe

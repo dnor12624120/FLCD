@@ -48,7 +48,7 @@ class FiniteAutomaton
 					return false;
 				}
 			}
-			return true;
+			return std::find(finalStates.begin(), finalStates.end(), currentState) != finalStates.end();
 		}
 
 		std::set<State> getStates() const

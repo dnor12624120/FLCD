@@ -46,10 +46,11 @@ class Grammar
 
 		std::map<std::string, Terminal> getTerminals() { return terminals; }
 		std::map<std::string, NonTerminal> getNonterminals() { return nonterminals; }
+		std::string getStarting() { return starting; }
 
 		bool isTerminal(const std::string& input)
 		{
-			return terminals.find(input) != terminals.end();
+			return terminals.find(input) != terminals.end() || input == "epsilon";
 		}
 
 		bool isNonterminal(const std::string& input)
@@ -87,7 +88,7 @@ class Grammar
 			int numTerminals;
 			int numNonterminals;
 
-			inputFile >> numTerminals >> numNonterminals;
+			inputFile >> starting >> numTerminals >> numNonterminals;
 
 			for (int i = 0; i < numTerminals; i++)
 			{
@@ -120,6 +121,7 @@ class Grammar
 
 		}
 
+		std::string starting;
 		std::map<std::string, Terminal> terminals;
 		std::map<std::string, NonTerminal> nonterminals;
 };
