@@ -92,7 +92,7 @@ class Parser
 			return workTop.substr(workTop.find(delimiter) + delimiter.length(), workTop.size() - 1);
 		}
 
-		std::vector<std::string> parse()	//long function could be divided into multiple function
+		std::vector<std::string> parse()	//long function could be divided into multiple functions
 		{
 			input.push(grammar.getStarting());
 			while (currentState != ParserState::STATE_FINAL && currentState != ParserState::STATE_ERROR)
